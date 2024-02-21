@@ -1,0 +1,108 @@
+type Query {
+    homepage: HomePage
+        @resolver(class: "Vegam\\HomepageGraphQl\\Model\\Resolver\\HomepageResolver")
+        @doc(description: "The Homepage graphql")
+        @cache(cacheable: false)
+    viewallProducts(
+        pageSize: Int = 20 @doc(description: "The maximum number of results to return at once. The default value is 20."),
+        currentPage: Int = 1 @doc(description: "The page of results to return. The default value is 1."),
+        sort: ProductAttributeSortInput @doc(description: "Specifies which attributes to sort on, and whether to return the results in ascending or descending order.")
+        input: Id!) : ViewAllProducts
+        @resolver(class: "Vegam\\HomepageGraphQl\\Model\\Resolver\\ViewAllProductResolver")
+        @doc(description: "The Homepage view all graphql")
+        @cache(cacheable: false)
+}
+
+input Id {
+    Id: Int @Doc(description: "Block Id"),
+}
+
+type ViewAllProducts {
+    products: [ProductInterface]
+    page_info: SearchResultPageInfo @doc(description: "comment for page_info.")
+    total_count: Int @doc(description: "The number of products that are marked as visible. By default, in complex products, parent products are visible, but their child products are not.")
+    aggregations (filter: AggregationsFilterInput): [Aggregation]
+     @doc(description: "A bucket that contains the attribute code and label for each filterable option.") 
+     @resolver(class: "Magento\\CatalogGraphQl\\Model\\Resolver\\Aggregations")
+
+}
+
+interface Block @typeResolver(class: "Vegam\\HomepageGraphQl\\Model\\Resolver\\HomeBlockTypeResolver") {
+    id: Int
+    name: String @deprecated(reason: "use title instead")
+    title: String
+    status: Boolean @deprecated(reason: "use desktop_status instead")
+    desktop_status: Boolean
+    mobile_status: Boolean
+    store: String
+    store_label: String
+    show_title: Boolean
+}
+
+type BannerBlock implements Block {
+    banneritems:[BannerItems]
+    banner_template: String
+}
+
+type BannerItems {
+    image: String
+    title: String
+    link: String @deprecated(reason: "use link_info array instead") 
+    link_info: LinkItems
+    layout: String
+    position: String
+}
+
+type LinkItems {
+    link_type: String
+    external_url: String
+    link_url: String
+    category_id: String
+    page_id: String
+    product_id: String
+    product_sku: String
+    open_tab: Boolean
+}
+
+type ProductBlock implements Block {
+    viewall_status: Boolean
+    product_type: String
+    display_style: String
+    description: String
+    products: [ProductInterface]
+}
+
+type CategoryBlock implements Block {
+    category_info: [CategoryInfo]
+}
+
+type CategoryInfo {
+    category_id: Int
+    name: String
+    image: String
+    url_path: String
+    url_key: String
+}
+
+type Blocks {
+    data: [Block]
+    page_info: SearchResultPageInfo @doc(description: "comment for page_info.")
+    total_count: Int
+}
+
+type HomePage @doc(description: "The type contains data of homepage") {
+    blocks(
+        filter: BlockFilterInput
+        pageSize: Int = 20 
+        currentPage: Int = 1
+        ): Blocks  @resolver(class: "Vegam\\HomepageGraphQl\\Model\\Resolver\\HomepageBlockResolver")
+}
+
+input BlockFilterInput {
+  mobile_status: FilterEqualTypeInput
+  desktop_status: FilterEqualTypeInput
+}
+
+input FilterEqualTypeInput {
+    eq: String
+}

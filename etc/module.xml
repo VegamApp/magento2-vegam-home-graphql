@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @package Vegam_HomepageGraphQl
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
+    <module name="Vegam_HomepageGraphQl" setup_version="1.0.0">
+    	<sequence>
+            <module name="Vegam_Homepage"/>
+            <module name="Magento_Store"/>
+            <module name="Magento_Catalog"/>
+            <module name="Magento_GraphQl"/>
+            <module name="Magento_Authorization"/>
+            <module name="Magento_UrlRewriteGraphQl"/>
+            <module name="Magento_TestModuleGraphQlQuery"/>
+        </sequence>
+    </module>
+</config>
+ 

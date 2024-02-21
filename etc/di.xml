@@ -1,0 +1,5 @@
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\UrlRewriteGraphQl\Model\Resolver\EntityUrl">
+        <plugin name="cs_urlresolver_sku" type="Vegam\HomepageGraphQl\Plugin\Model\UrlResolverForSku" sortOrder="1" disabled="false" />
+    </type>
+</config>

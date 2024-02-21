@@ -1,0 +1,17 @@
+{
+    "name": "vegam/homepage-graphql",
+    "description": "Homepage module graphql for Vegam App",
+    "type": "magento2-module",
+    "version": "1.0.3",
+    "require": {
+        "vegam/homepage": "^1.0.0"
+    },
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Vegam\\HomepageGraphQl\\": ""
+        }
+    }
+}
